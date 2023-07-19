@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "80280483472",
+    "firebase_url": "https://bwangubwangu-d8134-default-rtdb.firebaseio.com",
+    "project_id": "bwangubwangu-d8134",
+    "storage_bucket": "bwangubwangu-d8134.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:80280483472:android:60d597dc376cfba4a74a15",
+        "android_client_info": {
+          "package_name": "com.bwangubwangu.delivery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "80280483472-l7ttt5cfer1v7scgqmumms83o3nrkdoj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMKDyW-QglHhycI5vfkg6Y-orM9cqNPPs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "80280483472-3spbqq89lc95p2cpdnepktvaorvpl122.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "80280483472-a9bt98dfbncoqlc858d3bdbucabd2nab.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "bwangubwangu.page.link"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:80280483472:android:775d020709557774a74a15",
+        "android_client_info": {
+          "package_name": "com.bwangubwangu.user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "80280483472-l7ttt5cfer1v7scgqmumms83o3nrkdoj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMKDyW-QglHhycI5vfkg6Y-orM9cqNPPs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "80280483472-3spbqq89lc95p2cpdnepktvaorvpl122.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "80280483472-a9bt98dfbncoqlc858d3bdbucabd2nab.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "bwangubwangu.page.link"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
