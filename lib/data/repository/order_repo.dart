@@ -35,9 +35,10 @@ class OrderRepo extends GetxService {
     return apiClient.postData(AppConstants.recordLocationUri, recordLocationBody.toJson());
   }
 
-  Future<Response> updateOrderStatus(UpdateStatusBody updateStatusBody) {
+  Future<Response> updateOrderStatus(UpdateStatusBody updateStatusBody, List<MultipartBody> proofAttachment) {
     updateStatusBody.token = getUserToken();
-    return apiClient.postData(AppConstants.updateOrderStatusUri, updateStatusBody.toJson());
+    // return apiClient.postData(AppConstants.updateOrderStatusUri, updateStatusBody.toJson());
+    return apiClient.postMultipartData(AppConstants.updateOrderStatusUri, updateStatusBody.toJson(), proofAttachment);
   }
 
   Future<Response> updatePaymentStatus(UpdateStatusBody updateStatusBody) {
@@ -80,6 +81,10 @@ class OrderRepo extends GetxService {
 
   Future<Response> getCancelReasons() async {
     return await apiClient.getData('${AppConstants.orderCancellationUri}?offset=1&limit=30&type=deliveryman');
+  }
+
+  Future<Response> sendDeliveredNotification(int? orderID) {
+    return apiClient.postData(AppConstants.deliveredOrderNotificationUri, {"_method": "put", 'token': getUserToken(), 'order_id': orderID});
   }
 
 }

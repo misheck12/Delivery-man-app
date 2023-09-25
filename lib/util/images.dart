@@ -4,6 +4,7 @@ class Images {
   static const String lock = 'assets/image/lock.png';
   static const String english = 'assets/image/english.png';
   static const String arabic = 'assets/image/arabic.png';
+  static const String bangla = 'assets/image/bangla.png';
   static const String mail = 'assets/image/mail.png';
   static const String checked = 'assets/image/checked.png';
   static const String deliveryManMarker = 'assets/image/delivery_man_marker.png';
@@ -28,4 +29,5 @@ class Images {
   static const String image = 'assets/image/image.png';
   static const String send = 'assets/image/send.png';
   static const String notificationPlaceholder = 'assets/image/notification_placeholder.jpg';
+  static const String deliveredSuccess = 'assets/image/delivered_success.gif';
 }
