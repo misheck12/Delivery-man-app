@@ -1,6 +1,8 @@
+import 'package:image_picker/image_picker.dart';
 import 'package:sixam_mart_delivery/controller/auth_controller.dart';
 import 'package:sixam_mart_delivery/controller/splash_controller.dart';
 import 'package:sixam_mart_delivery/data/api/api_checker.dart';
+import 'package:sixam_mart_delivery/data/api/api_client.dart';
 import 'package:sixam_mart_delivery/data/model/body/record_location_body.dart';
 import 'package:sixam_mart_delivery/data/model/body/update_status_body.dart';
 import 'package:sixam_mart_delivery/data/model/response/ignore_model.dart';
@@ -36,6 +38,9 @@ class OrderController extends GetxController implements GetxService {
   OrderModel? _orderModel;
   String? _cancelReason = '';
   List<CancellationData>? _orderCancelReasons;
+  bool _showDeliveryImageField = false;
+  List<XFile> _pickedPrescriptions = [];
+  bool _hideNotificationButton = false;
 
   List<OrderModel>? get allOrderList => _allOrderList;
   List<OrderModel>? get currentOrderList => _currentOrderList;
@@ -54,6 +59,53 @@ class OrderController extends GetxController implements GetxService {
   OrderModel? get orderModel => _orderModel;
   String? get cancelReason => _cancelReason;
   List<CancellationData>? get orderCancelReasons => _orderCancelReasons;
+  bool get showDeliveryImageField => _showDeliveryImageField;
+  List<XFile> get pickedPrescriptions => _pickedPrescriptions;
+  bool get hideNotificationButton => _hideNotificationButton;
+
+
+  Future<bool> sendDeliveredNotification(int? orderID) async {
+    _hideNotificationButton = true;
+    update();
+    Response response = await orderRepo.sendDeliveredNotification(orderID);
+    bool isSuccess;
+    if(response.statusCode == 200) {
+      isSuccess = true;
+    }else {
+      ApiChecker.checkApi(response);
+      isSuccess = false;
+    }
+    _hideNotificationButton = false;
+    update();
+    return isSuccess;
+  }
+
+  void changeDeliveryImageStatus({bool isUpdate = true}){
+    _showDeliveryImageField = !_showDeliveryImageField;
+    if(isUpdate) {
+      update();
+    }
+  }
+
+  void pickPrescriptionImage({required bool isRemove, required bool isCamera}) async {
+    if(isRemove) {
+      _pickedPrescriptions = [];
+    }else {
+      XFile? xFile = await ImagePicker().pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery, imageQuality: 50);
+      if(xFile != null) {
+        _pickedPrescriptions.add(xFile);
+        if(Get.isDialogOpen!){
+          Get.back();
+        }
+      }
+      update();
+    }
+  }
+
+  void removePrescriptionImage(int index) {
+    _pickedPrescriptions.removeAt(index);
+    update();
+  }
 
   void initLoading(){
     _isLoading = false;
@@ -188,12 +240,17 @@ class OrderController extends GetxController implements GetxService {
   Future<bool> updateOrderStatus(OrderModel currentOrder, String status, {bool back = false,  String? reason, bool? parcel = false}) async {
     _isLoading = true;
     update();
+    List<MultipartBody> multiParts = [];
+    for(XFile file in _pickedPrescriptions) {
+      multiParts.add(MultipartBody('order_proof[]', file));
+    }
     UpdateStatusBody updateStatusBody = UpdateStatusBody(
       orderId: currentOrder.id, status: status,
-      otp: status == AppConstants.delivered || (parcel! && status == AppConstants.pickedUp) ? _otp : null, reason: reason,
+      otp: status == AppConstants.delivered || (parcel! && status == AppConstants.pickedUp) ? _otp : null,
+      reason: reason,
     );
-    Response response = await orderRepo.updateOrderStatus(updateStatusBody);
-    Get.back();
+    Response response = await orderRepo.updateOrderStatus(updateStatusBody, multiParts);
+    Get.back(result: response.statusCode == 200);
     bool isSuccess;
     if(response.statusCode == 200) {
       if(back) {

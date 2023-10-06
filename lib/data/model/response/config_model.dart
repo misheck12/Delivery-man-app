@@ -36,6 +36,8 @@ class ConfigModel {
   double? parcelPerKmShippingCharge;
   double? parcelMinimumShippingCharge;
   ModuleConfig? moduleConfig;
+  bool? dmPictureUploadStatus;
+  String? additionalChargeName;
 
   ConfigModel(
       {this.businessName,
@@ -74,7 +76,9 @@ class ConfigModel {
         this.digitAfterDecimalPoint,
         this.moduleConfig,
         this.parcelPerKmShippingCharge,
-        this.parcelMinimumShippingCharge
+        this.parcelMinimumShippingCharge,
+        this.dmPictureUploadStatus,
+        this.additionalChargeName,
       });
 
   ConfigModel.fromJson(Map<String, dynamic> json) {
@@ -126,6 +130,8 @@ class ConfigModel {
         : null;
     parcelPerKmShippingCharge = json['parcel_per_km_shipping_charge'].toDouble();
     parcelMinimumShippingCharge = json['parcel_minimum_shipping_charge'].toDouble();
+    dmPictureUploadStatus = json['dm_picture_upload_status'] == 1 ? true : false;
+    additionalChargeName = json['additional_charge_name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -175,6 +181,8 @@ class ConfigModel {
     }
     data['parcel_per_km_shipping_charge'] = parcelPerKmShippingCharge;
     data['parcel_minimum_shipping_charge'] = parcelMinimumShippingCharge;
+    data['dm_picture_upload_status'] = dmPictureUploadStatus;
+    data['additional_charge_name'] = additionalChargeName;
     return data;
   }
 }
@@ -322,6 +330,7 @@ class Module {
   bool? orderAttachment;
   bool? showRestaurantText;
   bool? isParcel;
+  bool? newVariation;
 
   Module(
       {this.orderStatus,
@@ -333,6 +342,7 @@ class Module {
         this.orderAttachment,
         this.showRestaurantText,
         this.isParcel,
+        this.newVariation,
       });
 
   Module.fromJson(Map<String, dynamic> json) {
@@ -347,6 +357,7 @@ class Module {
     orderAttachment = json['order_attachment'];
     showRestaurantText = json['show_restaurant_text'];
     isParcel = json['is_parcel'];
+    newVariation = json['new_variation'];
   }
 
   Map<String, dynamic> toJson() {
@@ -363,6 +374,7 @@ class Module {
     data['order_attachment'] = orderAttachment;
     data['show_restaurant_text'] = showRestaurantText;
     data['is_parcel'] = isParcel;
+    data['new_variation'] = newVariation;
     return data;
   }
 }

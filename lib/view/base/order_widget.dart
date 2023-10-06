@@ -44,7 +44,7 @@ class OrderWidget extends StatelessWidget {
           )),
           const SizedBox(width: Dimensions.paddingSizeExtraSmall),
           Text(
-            orderModel.paymentMethod == 'cash_on_delivery' ? 'cod'.tr : 'digitally_paid'.tr,
+            orderModel.paymentMethod == 'cash_on_delivery' ? 'cod'.tr : orderModel.paymentMethod == 'partial_payment' ? 'partially_pay'.tr : 'digitally_paid'.tr,
             style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
           ),
         ]),
@@ -100,7 +100,13 @@ class OrderWidget extends StatelessWidget {
             height: 45,
             onPressed: () async {
               String url;
-              if(orderModel.orderStatus == 'picked_up') {
+              if(parcel && (orderModel.orderStatus == 'picked_up')) {
+                url = 'https://www.google.com/maps/dir/?api=1&destination=${orderModel.receiverDetails!.latitude}'
+                    ',${orderModel.receiverDetails!.longitude}&mode=d';
+              }else if(parcel) {
+                url = 'https://www.google.com/maps/dir/?api=1&destination=${orderModel.deliveryAddress!.latitude}'
+                    ',${orderModel.deliveryAddress!.longitude}&mode=d';
+              }else if(orderModel.orderStatus == 'picked_up') {
                 url = 'https://www.google.com/maps/dir/?api=1&destination=${orderModel.deliveryAddress!.latitude}'
                     ',${orderModel.deliveryAddress!.longitude}&mode=d';
               }else {

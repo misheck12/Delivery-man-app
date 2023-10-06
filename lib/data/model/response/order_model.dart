@@ -70,6 +70,14 @@ class OrderModel {
   ParcelCategory? parcelCategory;
   Customer? customer;
   double? dmTips;
+  bool? cutlery;
+  String? unavailableItemNote;
+  String? deliveryInstruction;
+  List<String>? orderProof;
+  List<Payments>? payments;
+  double? storeDiscountAmount;
+  bool? taxStatus;
+  double? additionalCharge;
 
   OrderModel(
       {this.id,
@@ -108,6 +116,14 @@ class OrderModel {
         this.parcelCategory,
         this.customer,
         this.dmTips,
+        this.cutlery,
+        this.unavailableItemNote,
+        this.deliveryInstruction,
+        this.orderProof,
+        this.payments,
+        this.storeDiscountAmount,
+        this.taxStatus,
+        this.additionalCharge,
       });
 
   OrderModel.fromJson(Map<String, dynamic> json) {
@@ -157,6 +173,35 @@ class OrderModel {
     parcelCategory = json['parcel_category'] != null ? ParcelCategory.fromJson(json['parcel_category']) : null;
     customer = json['customer'] != null ? Customer.fromJson(json['customer']) : null;
     dmTips = json['dm_tips'].toDouble();
+    cutlery = json['cutlery'];
+    unavailableItemNote = json['unavailable_item_note'];
+    deliveryInstruction = json['delivery_instruction'];
+    if(json['order_proof'] != null){
+      if(json['order_proof'].toString().startsWith('[')){
+        orderProof = [];
+        if(json['order_proof'] is String) {
+          jsonDecode(json['order_proof']).forEach((v) {
+            orderProof!.add(v);
+          });
+        }else{
+          json['order_proof'].forEach((v) {
+            orderProof!.add(v);
+          });
+        }
+      }else{
+        orderProof = [];
+        orderProof!.add(json['order_proof'].toString());
+      }
+    }
+    if (json['payments'] != null) {
+      payments = <Payments>[];
+      json['payments'].forEach((v) {
+        payments!.add(Payments.fromJson(v));
+      });
+    }
+    storeDiscountAmount = json['store_discount_amount'].toDouble();
+    taxStatus = json['tax_status'] == 'included' ? true : false;
+    additionalCharge = json['additional_charge']?.toDouble() ?? 0;
   }
 
   Map<String, dynamic> toJson() {
@@ -205,6 +250,15 @@ class OrderModel {
       data['customer'] = customer!.toJson();
     }
     data['dm_tips'] = dmTips;
+    data['cutlery'] = cutlery;
+    data['unavailable_item_note'] = unavailableItemNote;
+    data['delivery_instruction'] = deliveryInstruction;
+    data['order_proof'] = orderProof;
+    if (payments != null) {
+      data['payments'] = payments!.map((v) => v.toJson()).toList();
+    }
+    data['store_discount_amount'] = storeDiscountAmount;
+    data['additional_charge'] = additionalCharge;
     return data;
   }
 }
@@ -253,7 +307,7 @@ class DeliveryAddress {
     contactPersonName = json['contact_person_name'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    zoneId = json['zone_id'];
+    zoneId = json['zone_id'] != null && json['zone_id'] != 'null' ? int.parse(json['zone_id'].toString()) : null;
     streetNumber = json['road'];
     house = json['house'];
     floor = json['floor'];
@@ -360,6 +414,46 @@ class ParcelCategory {
     data['image'] = image;
     data['name'] = name;
     data['description'] = description;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    return data;
+  }
+}
+
+class Payments {
+  int? id;
+  int? orderId;
+  double? amount;
+  String? paymentStatus;
+  String? paymentMethod;
+  String? createdAt;
+  String? updatedAt;
+
+  Payments({this.id,
+        this.orderId,
+        this.amount,
+        this.paymentStatus,
+        this.paymentMethod,
+        this.createdAt,
+        this.updatedAt});
+
+  Payments.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    orderId = json['order_id'];
+    amount = json['amount']?.toDouble();
+    paymentStatus = json['payment_status'];
+    paymentMethod = json['payment_method'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['order_id'] = orderId;
+    data['amount'] = amount;
+    data['payment_status'] = paymentStatus;
+    data['payment_method'] = paymentMethod;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     return data;

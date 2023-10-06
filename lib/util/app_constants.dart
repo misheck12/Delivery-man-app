@@ -2,10 +2,10 @@ import 'package:sixam_mart_delivery/data/model/response/language_model.dart';
 import 'package:sixam_mart_delivery/util/images.dart';
 
 class AppConstants {
-  static const String appName = 'Bwangu Bwangu';
-  static const double appVersion = 2.1;
+  static const String appName = '6amMart Delivery';
+  static const double appVersion = 2.3;
 
-  static const String baseUrl = 'https://admin.bwangubwangu.com';
+  static const String baseUrl = 'https://6ammart-admin.6amtech.com';
   static const String configUri = '/api/v1/config';
   static const String forgetPasswordUri = '/api/v1/auth/delivery-man/forgot-password';
   static const String verifyTokenUri = '/api/v1/auth/delivery-man/verify-token';
@@ -34,6 +34,7 @@ class AppConstants {
   static const String currentOrderUri = '/api/v1/delivery-man/order?token=';
   static const String vehiclesUri = '/api/v1/get-vehicles';
   static const String orderCancellationUri = '/api/v1/customer/order/cancellation-reasons';
+  static const String deliveredOrderNotificationUri = '/api/v1/delivery-man/send-order-otp';
 
   //chat url
   static const String getConversationListUri = '/api/v1/delivery-man/message/list';
@@ -70,9 +71,16 @@ class AppConstants {
   static const String failed = 'failed';
   static const String refunded = 'refunded';
 
+  ///user type..
+  static const String user = 'user';
+  static const String customer = 'customer';
+  static const String deliveryMan = 'delivery_man';
+  static const String vendor = 'vendor';
+
   static List<LanguageModel> languages = [
     LanguageModel(imageUrl: Images.english, languageName: 'English', countryCode: 'US', languageCode: 'en'),
     LanguageModel(imageUrl: Images.arabic, languageName: 'Arabic', countryCode: 'SA', languageCode: 'ar'),
-    LanguageModel(imageUrl: Images.arabic, languageName: 'Spanish', countryCode: 'ES', languageCode: 'es'),
+    // LanguageModel(imageUrl: Images.arabic, languageName: 'Spanish', countryCode: 'ES', languageCode: 'es'),
+    // LanguageModel(imageUrl: Images.bangla, languageName: 'Bengali', countryCode: 'BN', languageCode: 'bn'),
   ];
 }

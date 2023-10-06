@@ -21,6 +21,16 @@ class SplashController extends GetxController implements GetxService {
   String? get storeType => _storeType;
   String? get htmlText => _htmlText;
 
+  Module getModuleConfig(String? moduleType) {
+    Module module = Module.fromJson(_data!['module_config'][moduleType]);
+    if(moduleType == 'food') {
+      module.newVariation = true;
+    }else {
+      module.newVariation = false;
+    }
+    return module;
+  }
+
   Future<bool> getConfigData() async {
     Response response = await splashRepo.getConfigData();
     bool isSuccess = false;
@@ -54,9 +64,8 @@ class SplashController extends GetxController implements GetxService {
     _htmlText = null;
     Response response = await splashRepo.getHtmlText(isPrivacyPolicy);
     if (response.statusCode == 200) {
-      _htmlText = response.body;
-      if(_htmlText != null && _htmlText!.isNotEmpty) {
-        _htmlText = _htmlText!.replaceAll('href=', 'target="_blank" href=');
+      if(response.body != null && response.body.isNotEmpty && response.body is String) {
+        _htmlText = response.body.replaceAll('href=', 'target="_blank" href=');
       }else {
         _htmlText = '';
       }

@@ -17,15 +17,15 @@ class UpdateStatusBody {
     reason = json['reason'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['token'] = token;
-    data['order_id'] = orderId;
-    data['status'] = status;
-    data['otp'] = otp;
+  Map<String, String> toJson() {
+    final Map<String, String> data = <String, String>{};
+    data['token'] = token!;
+    data['order_id'] = orderId.toString();
+    data['status'] = status!;
+    data['otp'] = otp??'';
     data['_method'] = method;
-    if(reason != '') {
-      data['reason'] = reason;
+    if(reason != '' && reason != null) {
+      data['reason'] = reason!;
     }
     return data;
   }
